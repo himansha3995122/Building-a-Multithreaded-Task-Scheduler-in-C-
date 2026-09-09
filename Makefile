@@ -19,7 +19,9 @@ JTHREAD_FLAGS  = -std=c++20 -Wall -Wextra -pthread -g
 JTHREAD_SRC    = src/jthread_demo.cpp
 
 # Bank account demo build (separate source file, separate binary)
-BANK_ACCOUNT_TARGET = bank_account
+# NOTE: binary is named bank_account_bin, NOT bank_account - this avoids colliding
+# with the phony "bank_account" run-target below (same name on both = broken recipes)
+BANK_ACCOUNT_TARGET = bank_account_bin
 BANK_ACCOUNT_SRC    = src/bank_account.cpp
 BANK_ACCOUNT_FLAGS  = -std=c++20 -Wall -Wextra -pthread -g
 
@@ -67,7 +69,6 @@ bank_account-valgrind: $(BANK_ACCOUNT_TARGET)
 
 $(BANK_ACCOUNT_TARGET): $(BANK_ACCOUNT_SRC)
 	$(CXX) $(BANK_ACCOUNT_FLAGS) -o $(BANK_ACCOUNT_TARGET) $(BANK_ACCOUNT_SRC)
-
 
 clean:
 	rm -f $(RELEASE_TARGET) $(DEBUG_TARGET) $(VALGRIND_TARGET) $(JTHREAD_TARGET) $(BANK_ACCOUNT_TARGET)
